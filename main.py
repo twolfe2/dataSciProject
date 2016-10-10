@@ -10,7 +10,7 @@ def load_data():
     
     features = clean_features(features)
 
-    train = clean_train_markdown(train)
+
     return (train, test, features)
    
 def clean_features(features):
@@ -45,7 +45,7 @@ def combine_features(train, test, features):
         curr_week = get_holidays(date)
         next_week = get_holidays(next_week)
         #last_years_sales = get_last_years_sales(curr_date, last_year, train)
-        X_train[i] = X_train[i] + prev_week + curr_week + next_week
+        X_train[i] = X_train[i] + prev_week + curr_week + next_week + [month] + [day]
 
         
     for i in range(len(test)):
@@ -66,7 +66,7 @@ def combine_features(train, test, features):
         curr_week = get_holidays(date)
         next_week = get_holidays(next_week)
         #last_years_sales = get_last_years_sales(curr_date, last_year, train)
-        X_test[i] = X_test[i] + prev_week + curr_week + next_week
+        X_test[i] = X_test[i] + prev_week + curr_week + next_week +[month] + [day]
         dates.append(date)
 
     return(X_train, X_test, y_train, dates)
@@ -138,4 +138,5 @@ def main():
             if len(X_test) > 0:
                 y_test = linear_model(X_train, y_train, X_test)
                 write(y_test, i , dept, dates)
+    print('All finished...Results are in ./data/result.csv')
 main()
